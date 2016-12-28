@@ -2,16 +2,39 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
+
+// views
+import Hello from './components/Hello'
+
+
+// element
 import Element from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
 import locale from 'element-ui/lib/locale/lang/en'
 
-/* eslint-disable no-new */
+
+// router
+import VueRouter from 'vue-router'
+
+
+
 
 Vue.use(Element, {locale})
+Vue.use(VueRouter)
 
+const router = new VueRouter({
+  mode: 'history',
+  base: __dirname,
+  routes: [
+    {
+      path: "/",
+      component: Hello
+    }
+  ]
+})
 
 new Vue({
+  router,
   el: '#app',
   template: '<App/>',
   components: { App }

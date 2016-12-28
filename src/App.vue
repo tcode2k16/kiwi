@@ -1,26 +1,29 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <hello></hello>
-    <el-button @click.native="startHacking">Let's do it</el-button>
+    <Navbar :routes="routes"></Navbar>
+    <br><br>
+    <router-view></router-view>
+    
   </div>
 </template>
 
 <script>
-import Hello from './components/Hello'
+
+
+import Navbar from './components/Navbar'
 
 export default {
   name: 'app',
   components: {
-    Hello
+    Navbar
   },
-  methods: {
-    startHacking () {
-      this.$notify({
-        title: 'It Works',
-        message: 'We have laid the groundwork for you. Now it\'s your time to build something epic!',
-        duration: 6000
-      })
+  data: () => {
+    return {
+      routes: {
+        names: ['Menu','My Sets','My Activities', 'My Study Plan'],
+        icon: "./assets/logo.png",
+        title: 'Kiwi'
+      }
     }
   }
 }
@@ -33,6 +36,5 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>
