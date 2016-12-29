@@ -5,14 +5,14 @@
 <template>
     <el-row>
         <el-col :span="12">
-            <draggable class="draggable" :options="{group:'widgets'}" @start="dragging=true" @end="dragging=false">
+            <draggable class="draggable" :options="$store.state.drag_op" @start="dragging=true" @end="dragging=false">
                 <Welcome></Welcome>
                 <Train></Train>
                 <Activities></Activities>
             </draggable>
         </el-col>
         <el-col :span="12">
-            <draggable class="draggable" :options="{group:'widgets'}" @start="dragging=true" @end="dragging=false">
+            <draggable class="draggable" :options="$store.state.drag_op" @start="dragging=true" @end="dragging=false">
                 <Todo></Todo>
 
             </draggable>

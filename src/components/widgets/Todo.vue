@@ -22,7 +22,7 @@
         <hr><br>
         <el-row type="flex" align="middle">
             <el-col :span="24">
-                <el-input size="large" placeholder="What needs to be done?" v-model="input" @keyup.native.enter="addTodo"></el-input>
+                <el-input size="large" @blur="change_focus" @focus="change_focus" placeholder="What needs to be done?" v-model="input" @keyup.native.enter="addTodo"></el-input>
             </el-col>
             
             
@@ -37,11 +37,6 @@
 <script>
 
 export default {
-    // computed: {
-    //     tasks() {
-    //         return JSON.parse(JSON.stringify(this.$store.state.menu.todos))
-    //     }
-    // }
     data() {
         return {
             tasks: JSON.parse(JSON.stringify(this.$store.state.menu.todos)),
@@ -58,9 +53,7 @@ export default {
     },
     methods: {
         remove_task(index) {
-            console.log('called');
-            console.log(index);
-            this.tasks.splice(index, 1);
+            this.tasks.splice(index, 1)
             
         },
         addTodo() {
@@ -70,7 +63,10 @@ export default {
                 done: false
             })
             this.input = ''
-            document.activeElement.blur();
+            document.activeElement.blur()
+        },
+        change_focus() {
+            this.$store.commit('toggle_drag')
         }
     }
 }

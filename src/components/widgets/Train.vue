@@ -26,7 +26,8 @@
 export default {
     methods: {
         start_train() {
-            this.$store.commit('add_streak');
+            this.$store.commit('add_streak')
+            // this.$store.commit('toggle_drag')
         }
     }
 }    

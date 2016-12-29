@@ -22,7 +22,11 @@ const state = {
           {name: 'how to kill ebarbs', action: 'add', time: '2016.12.29'},
           {name: 'how to kill ebarbs', action: 'edit', time: '2016.12.29'},
           {name: 'how to kill ebarbs', action: 'delete', time: '2016.12.30'}
-        ]
+        ],
+        drag_op: {
+          group:'widgets',
+          disabled: false
+        }
 }
 
 // mutations are operations that actually mutates the state.
@@ -35,7 +39,11 @@ const mutations = {
     state.menu.todos = update
   },
   add_streak(state) {
-    state.menu.num_streak++;
+    state.menu.num_streak++
+  },
+  toggle_drag(state) {
+    let new_op = !state.drag_op.disabled
+    state.drag_op = {...state.drag_op, disabled: new_op}
   }
 }
 
