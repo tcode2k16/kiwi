@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <Navbar :routes="routes"></Navbar>
-    <br><br>
+    <Navbar></Navbar>
+    <br>
     <router-view></router-view>
     
   </div>
@@ -16,15 +16,6 @@ export default {
   name: 'app',
   components: {
     Navbar
-  },
-  data: () => {
-    return {
-      routes: {
-        names: ['Menu','My Sets','My Activities', 'My Study Plan'],
-        icon: "./assets/logo.png",
-        title: 'Kiwi'
-      }
-    }
   }
 }
 </script>
@@ -36,5 +27,15 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  background-color: #EEEEEE;
+  position:fixed;
+  padding:0;
+  margin:0;
+
+  top:0;
+  left:0;
+
+  width: 100%;
+  height: 100%;
 }
 </style>
