@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import createPersistedState from 'vuex-persistedstate'
+import createPersistedState from './plugins/SaveState'
+
+
 Vue.use(Vuex)
 
 // root state object.
@@ -79,8 +81,7 @@ const getters = {
   evenOrOdd: state => state.count % 2 === 0 ? 'even' : 'odd'
 }
 
-// A Vuex instance is created by combining the state, mutations, actions,
-// and getters.
+
 export default new Vuex.Store({
   state,
   getters,
