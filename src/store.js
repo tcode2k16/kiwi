@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-
+import createPersistedState from 'vuex-persistedstate'
 Vue.use(Vuex)
 
 // root state object.
@@ -16,7 +16,11 @@ const state = {
             { name: "eat stuff", done: false },
             { name: "read stuff", done: true }
           ],
-          num_streak: 10
+          num_streak: 10,
+          drag_grid: [
+            ['Welcome','Train','Activities'],
+            ['Todo']
+          ]
         },
         activities: [
           {name: 'how to kill ebarbs', action: 'add', time: '2016.12.29'},
@@ -44,6 +48,9 @@ const mutations = {
   toggle_drag(state) {
     let new_op = !state.drag_op.disabled
     state.drag_op = {...state.drag_op, disabled: new_op}
+  },
+  set_drag_grid(state, update) {
+    state.menu.drag_grid = JSON.parse(JSON.stringify(update))
   }
 }
 
@@ -78,5 +85,6 @@ export default new Vuex.Store({
   state,
   getters,
   actions,
-  mutations
+  mutations,
+  plugins: [createPersistedState()]
 })

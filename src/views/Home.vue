@@ -5,15 +5,17 @@
 <template>
     <el-row>
         <el-col :span="12">
-            <draggable class="draggable" :options="$store.state.drag_op" @start="dragging=true" @end="dragging=false">
-                <Welcome></Welcome>
-                <Train></Train>
-                <Activities></Activities>
+            <draggable class="draggable" :list="drag_grid[0]" :options="$store.state.drag_op" @start="dragging=true" @end="dragging=false">
+                <div v-for="each in drag_grid[0]">
+                    <MenuWidgets :name="each"></MenuWidgets>    
+                </div>
             </draggable>
         </el-col>
         <el-col :span="12">
-            <draggable class="draggable" :options="$store.state.drag_op" @start="dragging=true" @end="dragging=false">
-                <Todo></Todo>
+            <draggable class="draggable" :list="drag_grid[1]" :options="$store.state.drag_op" @start="dragging=true" @end="dragging=false">
+                <div v-for="each in drag_grid[1]">
+                    <MenuWidgets :name="each"></MenuWidgets>    
+                </div>
 
             </draggable>
         </el-col>
@@ -23,23 +25,18 @@
 <script>
 
 import draggable from 'vuedraggable'
-import Welcome from '../components/widgets/Welcome'
-import Todo from '../components/widgets/Todo'
-import Train from '../components/widgets/Train'
-import Activities from '../components/widgets/Activities'
+import MenuWidgets from '../components/widgets/MenuWidgets'
 
 
 export default {
     components: {
         draggable,
-        Welcome,
-        Todo,
-        Train,
-        Activities
+        MenuWidgets
     },
     data() {
         return {
-            dragging: false
+            dragging: false,
+            drag_grid: JSON.parse(JSON.stringify(this.$store.state.menu.drag_grid))
         }
     },
     methods: {
@@ -48,13 +45,19 @@ export default {
         }
 
     },
-    watcher: {
+    watch: {
         dragging: {
             handler() {
                 if (this.dragging)
                     document.addEventListener("touchmove", this.preventBehavior, false)
                 else
                     document.removeEventListener("touchmove", this.preventBehavior, false)
+            }
+        },
+        drag_grid: {
+            deep: true,
+            handler() {
+                this.$store.commit('set_drag_grid', this.drag_grid)
             }
         }
     }

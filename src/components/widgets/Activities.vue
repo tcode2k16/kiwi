@@ -21,6 +21,18 @@
             </el-row>
             <br>
         </div>
+
+        <div v-if="$store.state.activities.length===0">
+            <hr>
+            <el-row>
+                <el-col :span="24">
+                    <h4>no activities</h4>
+                    <p>start by creating a new set</p>
+                </el-col>
+                
+            </el-row>
+            <br>
+        </div>
         
     </el-card>
     <br>
