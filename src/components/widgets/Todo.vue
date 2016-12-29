@@ -9,7 +9,7 @@
             <hr>
             <el-row type="flex" align="middle">
                 <el-col :span="2"><el-checkbox v-model="task.done"></el-checkbox></el-col>
-                <el-col :span="20"><p :style="task.done ? 'text-decoration: line-through;' : ''">{{task.name}}</p></el-col>
+                <el-col :span="20"><p :style="(task.done ? 'text-decoration: line-through;' : '') +'overflow-x: scroll;'">{{task.name}}</p></el-col>
                 <el-col :span="2">
                     <div @click="remove_task(index)">
                         <i class="el-icon-close delete"></i>
