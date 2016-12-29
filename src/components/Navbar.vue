@@ -15,6 +15,7 @@
   export default {
     methods: {
       handleSelect(key, keyPath) {
+        document.activeElement.blur();
         console.log(key, keyPath);
       }
     }

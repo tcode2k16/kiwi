@@ -11,10 +11,18 @@ const state = {
             names: ['Menu','My Sets','My Activities', 'My Study Plan'],
             icon: "./assets/logo.png",
         },
-        info: {
-            user: "username"
+        menu: {
+          todos: [
+            { name: "eat stuff", done: false },
+            { name: "read stuff", done: true }
+          ],
+          num_streak: 10
         },
-        dragging: false
+        activities: [
+          {name: 'how to kill ebarbs', action: 'add', time: '2016.12.29'},
+          {name: 'how to kill ebarbs', action: 'edit', time: '2016.12.29'},
+          {name: 'how to kill ebarbs', action: 'delete', time: '2016.12.30'}
+        ]
 }
 
 // mutations are operations that actually mutates the state.
@@ -23,11 +31,11 @@ const state = {
 // mutations must be synchronous and can be recorded by plugins
 // for debugging purposes.
 const mutations = {
-  increment (state) {
-    state.count++
+  change_todo (state, update) {
+    state.menu.todos = update
   },
-  decrement (state) {
-    state.count--
+  add_streak(state) {
+    state.menu.num_streak++;
   }
 }
 

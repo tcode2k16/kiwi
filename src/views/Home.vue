@@ -5,16 +5,16 @@
 <template>
     <el-row>
         <el-col :span="12">
-            <draggable class="draggable" :options="{group:'widgets'}" @start="$store.state.dragging=true" @end="$store.state.dragging=false">
+            <draggable class="draggable" :options="{group:'widgets'}" @start="dragging=true" @end="dragging=false">
                 <Welcome></Welcome>
+                <Train></Train>
+                <Activities></Activities>
             </draggable>
         </el-col>
         <el-col :span="12">
-            <draggable class="draggable" :options="{group:'widgets'}" @start="$store.state.dragging=true" @end="$store.state.dragging=false">
-                <div class="card_w">
-                    <el-card>{{$store.state.info.user}}</el-card>
-                    <br>                
-                </div>
+            <draggable class="draggable" :options="{group:'widgets'}" @start="dragging=true" @end="dragging=false">
+                <Todo></Todo>
+
             </draggable>
         </el-col>
     </el-row>
@@ -24,11 +24,39 @@
 
 import draggable from 'vuedraggable'
 import Welcome from '../components/widgets/Welcome'
+import Todo from '../components/widgets/Todo'
+import Train from '../components/widgets/Train'
+import Activities from '../components/widgets/Activities'
+
 
 export default {
     components: {
         draggable,
-        Welcome
+        Welcome,
+        Todo,
+        Train,
+        Activities
+    },
+    data() {
+        return {
+            dragging: false
+        }
+    },
+    methods: {
+        preventBehavior(e) {
+            e.preventDefault()
+        }
+
+    },
+    watcher: {
+        dragging: {
+            handler() {
+                if (this.dragging)
+                    document.addEventListener("touchmove", this.preventBehavior, false)
+                else
+                    document.removeEventListener("touchmove", this.preventBehavior, false)
+            }
+        }
     }
     
 }

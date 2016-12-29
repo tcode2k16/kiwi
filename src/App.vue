@@ -25,17 +25,23 @@ export default {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
   text-align: center;
   color: #2c3e50;
   background-color: #EEEEEE;
-  position:fixed;
-  padding:0;
-  margin:0;
 
   top:0;
   left:0;
 
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  min-height: 100vh;
+}
+
+body {
+  padding:0;
+  margin:0;
+}
+html {
+  background-color: #3498db;
 }
 </style>
