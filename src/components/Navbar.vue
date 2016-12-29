@@ -5,7 +5,7 @@
       <i class="el-icon-close"></i>
       {{$store.state.app_name}}
     </el-menu-item>
-    <el-menu-item v-for="name in $store.state.routes.names" :index="name.split(' ').join('_')">{{name}} </el-menu-item>
+    <el-menu-item v-for="name in $store.state.routes.names" :index="'/'+name.split(' ').join('_')">{{name}} </el-menu-item>
   </el-menu>
 </template>
 

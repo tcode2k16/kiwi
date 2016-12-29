@@ -36,7 +36,8 @@ const state = {
         study_sets: [
           {
             name: 'how to kill ebarbs',
-            img: './assets/how_to_kill_ebarbs.jpg',
+            image: 1,
+            // img: 'https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png',
             description: 'This set helps you learn how to kill ebarbs.',
             set: []            
           },
@@ -45,7 +46,8 @@ const state = {
             description: 'This set helps you learn country names.',
             set: []            
           }
-        ]
+        ],
+        default_image: 8
 }
 
 // mutations are operations that actually mutates the state.
@@ -100,5 +102,5 @@ export default new Vuex.Store({
   getters,
   actions,
   mutations,
-  plugins: [createPersistedState()]
+  // plugins: [createPersistedState()]
 })
