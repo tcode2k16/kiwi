@@ -5,6 +5,7 @@ import App from './App'
 
 // views
 import Home from './views/Home'
+import ShowSets from './views/ShowSets'
 
 // element
 import Element from 'element-ui'
@@ -29,7 +30,8 @@ const router = new VueRouter({
   base: __dirname,
   routes: [
     { path: '/', component: Home },
-    { path: '/Menu', redirect: '/'}
+    { path: '/Menu', redirect: '/' },
+    { path: '/My_Sets', component: ShowSets }
   ]
 })
 

@@ -32,7 +32,20 @@ const state = {
         drag_op: {
           group:'widgets',
           disabled: false
-        }
+        },
+        study_sets: [
+          {
+            name: 'how to kill ebarbs',
+            img: './assets/how_to_kill_ebarbs.jpg',
+            description: 'This set helps you learn how to kill ebarbs.',
+            set: []            
+          },
+          {
+            name: 'country names',
+            description: 'This set helps you learn country names.',
+            set: []            
+          }
+        ]
 }
 
 // mutations are operations that actually mutates the state.
