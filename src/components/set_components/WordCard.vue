@@ -63,22 +63,15 @@ export default {
                 })
             } else if (!this.edit_w) {
                 if (this.word !== this.term.word || this.def !== this.term.def) {
-                    this.change_state()
+                    this.$emit('change',{
+                        uuid: this.uuid,
+                        tuuid: this.tuuid,
+                        word:this.word,
+                        def: this.def
+                    })
                 }
             }
                 
-        },
-        change_state() {
-            this.$store.commit('change_term', {
-                uuid: this.uuid,
-                tuuid: this.tuuid,
-                terms: {
-                    word: this.word,
-                    def: this.def
-                }
-            })
-
-
         }
     }
 }

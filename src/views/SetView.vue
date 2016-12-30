@@ -30,7 +30,7 @@
     </el-row>
     
     <transition name="fade">
-        <Edit v-if="activeOp === 'Edit'" :set="set" :uuid="this.$route.params.name"></Edit>
+        <Edit v-if="activeOp === 'Edit'" :uuid="this.$route.params.name"></Edit>
     </transition>
 
     <el-dialog title="Import words" v-model="import_w">
@@ -71,7 +71,6 @@ export default {
         },
         import_words() {
             this.import_w = false
-            console.log('working');
             if (this.im_words.str === "" || this.im_words.str === undefined) {
                 this.$notify.error({
                     title: 'Import failed',
