@@ -6,6 +6,17 @@ import assign from 'lodash.assign'
 
 Vue.use(Vuex)
 
+function uuid() {
+    function s4() {
+        return Math.floor((1 + Math.random()) * 0x10000)
+        .toString(16)
+        .substring(1);
+    }
+    return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+        s4() + '-' + s4() + s4() + s4();
+}
+
+
 // root state object.
 // each Vuex instance is just a single state tree.
 const state = {
@@ -681,11 +692,21 @@ const mutations = {
     state.study_sets.sets = {...state.study_sets.sets, [update.uuid]: update.set}
     state.study_sets.ids.push(update.uuid)
   },
-  change_set(state, update) {
-    state.study_sets.sets[update.uuid].set = {...update.words};
-  },
   add_term(state, update) {
-    
+    // update {
+    //  uuid: set id
+    //  words: [
+    //      {word:'',def:''}
+    //      ...
+    //  ]        
+    //}
+    let n_d = {}
+    let n_w = [...update.words].map((each) => {
+        let tuuid = uuid()
+        while (uuid in state.study_sets.sets[update.uuid].set || uuid in n_d) tuuid = uuid()
+        n_d[tuuid] = each
+    })
+    state.study_sets.sets[update.uuid].set = {...state.study_sets.sets[update.uuid].set, ...n_d};
   },
   change_term(state, update) {
     // update {

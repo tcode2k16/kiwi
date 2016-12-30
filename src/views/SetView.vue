@@ -80,38 +80,22 @@ export default {
                 return
             }
             let words = this.im_words.str.split('\n\n')
-            let new_d = this.$store.state.study_sets.sets[this.$route.params.name].set
+            let new_d = []
 
              words.map(each=>{
                 let terms = each.split('\t')
                 if (terms.length!==2) return;
 
-
-                let uuid = this.uuid()
-                while (uuid in this.set) uuid = this.uuid()
-
             
-                new_d[uuid] = {
+                new_d.push({
                     word: terms[0],
                     def: terms[1]
-                }
+                })
             })
-
-            console.log(Object.keys(new_d).length)
-            this.$store.commit('change_set',{
-                uuid:this.$route.params.name,
+            this.$store.commit('add_term',{
+                uuid: this.$route.params.name,
                 words: new_d
             })
-            console.log(Object.keys(this.$store.state.study_sets.sets[this.$route.params.name].set).length);
-        },
-        uuid() {
-            function s4() {
-                return Math.floor((1 + Math.random()) * 0x10000)
-                .toString(16)
-                .substring(1);
-            }
-            return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
-                s4() + '-' + s4() + s4() + s4();
         }
     },
     components: {
