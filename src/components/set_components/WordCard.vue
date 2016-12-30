@@ -4,9 +4,9 @@
     <el-row type="flex" align="middle">
        
         <el-col :span="8" class="title">
-            <p v-if="!edit_w">{{word_s}}</p>
+            <p v-if="!edit_w">{{word}}</p>
             <textarea v-if="edit_w"
-                v-model="word_s"
+                v-model="word"
                 class="word"
                 ref="name"
                 autocomplete="off"
@@ -16,10 +16,11 @@
     
 
         <el-col :span="13" class="divider">
-            <p v-if="!edit_w">{{def_s}}</p>
+            <p v-if="!edit_w">{{def}}</p>
             <textarea v-if="edit_w"
-                v-model="def_s"
+                v-model="def"
                 class="word"
+                ref="desc"
                 @keyup="textAreaAdjust">
             </textarea>
         </el-col>
@@ -38,18 +39,17 @@
 <script>
 
 export default {
-    props: ['word','def'],
+    props: ['term','uuid','tuuid'],
     data() {
         return {
             edit_w: false,
-            word_s: this.word,
-            def_s: this.def,
+            word: this.term.word,
+            def: this.term.def,
             stared: false
         }
     },
     methods: {
         textAreaAdjust(e) {
-            
             e.target.style.height = "auto"
             e.target.style.height = e.target.scrollHeight+"px"
         },
@@ -57,12 +57,31 @@ export default {
             this.edit_w = !this.edit_w
             if (this.edit_w) {
                 this.$nextTick(function () {
+                    this.textAreaAdjust({target: this.$refs.name})
+                    this.textAreaAdjust({target: this.$refs.desc})
                     this.$refs.name.focus()
                 })
             } else if (!this.edit_w) {
-                
+                if (this.word !== this.term.word || this.def !== this.term.def) {
+                    this.change_state()
+                }
             }
                 
+        },
+        change_state() {
+            let n_set = {
+                ...this.$store.state.study_sets.sets[this.uuid].set,
+                [this.tuuid]: {
+                    word: this.word,
+                    def: this.def
+                }
+            }
+            this.$store.commit('change_set', {
+                uuid: this.uuid,
+                words: n_set
+            })
+
+
         }
     }
 }
@@ -102,6 +121,7 @@ export default {
     width: 90%;
     resize: none;
     overflow:hidden;
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
 
 }
 
