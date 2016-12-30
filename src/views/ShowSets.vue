@@ -22,6 +22,15 @@
         </el-row>
         <br><br>
     </div>
+    <br><br>
+    <el-row>
+        <el-row :span="24">
+            <el-button type="primary" size="large">
+                create new set
+            </el-button>
+        </el-row>
+    </el-row>
+    <br>
 </div>
     
 </template>
