@@ -35,18 +35,20 @@ const state = {
         },
         study_sets: {
           sets: {
-            'how to kill ebarbs': {
+            '25c7d217-712a-7e57-c7dc-b384a0bf0be0': {
               image: 1,
               description: 'This set helps you learn how to kill ebarbs.',
+              name: 'how to kill ebarbs',
               set: []            
             },
-            'country names': {
+            '0b55e668-10ea-d648-43ed-230a164b5754': {
               image: 6,
               description: 'This set helps you learn country names.',
+              name: 'country names',
               set: []            
             }
           },
-          names: ['how to kill ebarbs','country names']
+          ids: ['25c7d217-712a-7e57-c7dc-b384a0bf0be0','0b55e668-10ea-d648-43ed-230a164b5754']
         },
         default_image: 7,
         img_num: 7
@@ -72,8 +74,8 @@ const mutations = {
     state.menu.drag_grid = JSON.parse(JSON.stringify(update))
   },
   add_study_set(state, update) {
-    state.study_sets.sets = {...state.study_sets.sets, [update.name]: update.set}
-    state.study_sets.names.push(update.name)
+    state.study_sets.sets = {...state.study_sets.sets, [update.uuid]: update.set}
+    state.study_sets.ids.push(update.uuid)
   }
 }
 

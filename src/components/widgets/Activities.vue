@@ -10,12 +10,12 @@
         <div v-for="log in $store.state.activities">
             <hr>
             <el-row>
-                <el-col :span="18">
+                <el-col :span="18" :xs="{span:24}">
                     {{
                         get_activity(log)
                     }}
                 </el-col>
-                <el-col :span="6">
+                <el-col :span="6" class="time">
                     {{log.time}}
                 </el-col>
             </el-row>
@@ -56,3 +56,13 @@
         }
     }
 </script>
+
+<style scoped>
+
+@media screen and (max-width: 768px) {
+    .time {
+        display: none !important;
+    }
+}
+
+</style>

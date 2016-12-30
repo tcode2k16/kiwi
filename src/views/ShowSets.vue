@@ -1,10 +1,9 @@
 <template>
 
 <div>
-    <div v-for="set in $store.state.study_sets.names">
-        <el-row type="flex" align="middle">
-            
-            <el-col :offset="2" :span="20">
+    <div v-for="set in $store.state.study_sets.ids">
+        <el-row type="flex" align="middle" justify="space-between">
+            <el-col :span="20" :offset="2" :md="{span: 16, offset: 4}" :lg="{span: 12, offset: 6}">
                 <router-link :to="'/Set/'+set">
                     <el-card :body-style="{ padding: '0px' }" style="color:#2c3e50;">
                         <el-row>
@@ -12,7 +11,7 @@
                                 <img :src="img_path(set)" class="set_img">
                             </el-col>
                             <el-col :span="18">
-                                <h1>{{set}}</h1>
+                                <h1>{{$store.state.study_sets.sets[set].name}}</h1>
                                 <p>{{$store.state.study_sets.sets[set].description}}</p>
                             </el-col>
                         </el-row>
@@ -33,18 +32,16 @@
     <br>
 
 
-    <el-dialog title="Add new set" size="large" v-model="add_set">
+    <el-dialog title="Add new set" v-model="add_set" style="width: calc(100%-300px)">
         <el-form :model="form">
-            <el-form-item label="Name of your study set" :label-width="formLabelWidth">
-            <el-input v-model="form.name" auto-complete="off"></el-input>
+            <el-form-item label="Name of your study set" >
+                <el-input v-model="form.name" :autofocus="true"></el-input>
             </el-form-item>
-            <el-form-item label="Description" :label-width="formLabelWidth">
-            <el-input
-                type="textarea"
-                :autosize="{ minRows: 2, maxRows: 4}"
-                placeholder="A awesome description"
-                v-model="form.description">
-            </el-input>
+            <el-form-item label="Description" >
+                <el-input
+                    placeholder="A awesome description"
+                    v-model="form.description">
+                </el-input>
 
             </el-form-item>
         </el-form>
@@ -69,8 +66,7 @@ export default {
             form: {
                 name: '',
                 description: ''
-            },
-            formLabelWidth: '200px'
+            }
         }
     },
     methods: {
@@ -80,31 +76,45 @@ export default {
         },
         create_set() {
             this.add_set = false
-            let set_name = this.form.name
+            let set_id = this.uuid()
             let new_set = {
                 image: Math.floor(Math.random()*(this.$store.state.img_num+1)),
                 description: this.form.description,
+                name: this.form.name,
                 set: []
             }
 
-            this.form.name = ''
-            this.form.description = ''
-            if (this.$store.state.study_sets.names.indexOf(set_name) >= 0) {
+            
+            while (this.$store.state.study_sets.ids.indexOf(set_id) >= 0) {
+                set_id = this.uuid()
+            }
+
+            if (this.form.name === '' || this.form.name === undefined) {
                 this.$notify.error({
-                    title: 'Study set existed',
-                    message: 'the study set is already there'
+                    title: 'Study set unnamed',
+                    message: 'You must name your study set'
                 })
                 return
-                
             }
-            this.$store.commit('add_study_set', {name: set_name, set: new_set})
+
+            this.$store.commit('add_study_set', {uuid: set_id, set: new_set})
             this.$notify({
                 title: 'Set added',
                 message: this.form.name+' is added to your study sets',
                 type: 'success'
             })
-
+            this.form.name = ''
+            this.form.description = ''
             
+        },
+        uuid() {
+            function s4() {
+                return Math.floor((1 + Math.random()) * 0x10000)
+                .toString(16)
+                .substring(1);
+            }
+            return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+                s4() + '-' + s4() + s4() + s4();
         }
     }
 }
