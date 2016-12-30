@@ -47,7 +47,8 @@ const state = {
             set: []            
           }
         ],
-        default_image: 8
+        default_image: 8,
+        img_num: 8
 }
 
 // mutations are operations that actually mutates the state.
@@ -68,6 +69,9 @@ const mutations = {
   },
   set_drag_grid(state, update) {
     state.menu.drag_grid = JSON.parse(JSON.stringify(update))
+  },
+  add_study_set(state, update) {
+    state.study_sets.push(update)
   }
 }
 
