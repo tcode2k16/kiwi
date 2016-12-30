@@ -7,10 +7,10 @@
                 <router-link :to="'/Set/'+set">
                     <el-card :body-style="{ padding: '0px' }" style="color:#2c3e50;">
                         <el-row>
-                            <el-col :span="6">
+                            <el-col :span="6" class="img_div">
                                 <img :src="img_path(set)" class="set_img">
                             </el-col>
-                            <el-col :span="18">
+                            <el-col :span="18" :xs="{span:24}">
                                 <h1>{{$store.state.study_sets.sets[set].name}}</h1>
                                 <p>{{$store.state.study_sets.sets[set].description}}</p>
                             </el-col>
@@ -32,7 +32,7 @@
     <br>
 
 
-    <el-dialog title="Add new set" v-model="add_set" style="width: calc(100%-300px)">
+    <el-dialog title="Add new set" v-model="add_set" >
         <el-form :model="form">
             <el-form-item label="Name of your study set" >
                 <el-input v-model="form.name" :autofocus="true"></el-input>
@@ -128,6 +128,14 @@ export default {
     height: 100%;
     display: block;
     image-rendering: pixelated;
+}
+
+
+
+@media screen and (max-width: 768px) {
+    .img_div {
+        display: none !important;
+    }
 }
 
 </style>

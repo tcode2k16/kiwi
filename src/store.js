@@ -18,7 +18,7 @@ const state = {
             { name: "eat stuff", done: false },
             { name: "read stuff", done: true }
           ],
-          num_streak: 10,
+          num_streak: 1000,
           drag_grid: [
             ['Welcome','Train','Activities'],
             ['Todo']
