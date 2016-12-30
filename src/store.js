@@ -683,6 +683,20 @@ const mutations = {
   },
   change_set(state, update) {
     state.study_sets.sets[update.uuid].set = {...update.words};
+  },
+  add_term(state, update) {
+    
+  },
+  change_term(state, update) {
+    // update {
+    //  uuid: set id
+    //  tuuid: term id
+    //  terms: {
+    //      word:
+    //      def:  
+    //  }        
+    //}
+    state.study_sets.sets[update.uuid].set = {...state.study_sets.sets[update.uuid].set, [update.tuuid]: update.terms}
   }
 }
 
@@ -717,5 +731,5 @@ export default new Vuex.Store({
   getters,
   actions,
   mutations,
-  plugins: [createPersistedState()]
+//   plugins: [createPersistedState()]
 })

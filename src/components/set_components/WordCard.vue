@@ -69,16 +69,13 @@ export default {
                 
         },
         change_state() {
-            let n_set = {
-                ...this.$store.state.study_sets.sets[this.uuid].set,
-                [this.tuuid]: {
+            this.$store.commit('change_term', {
+                uuid: this.uuid,
+                tuuid: this.tuuid,
+                terms: {
                     word: this.word,
                     def: this.def
                 }
-            }
-            this.$store.commit('change_set', {
-                uuid: this.uuid,
-                words: n_set
             })
 
 
