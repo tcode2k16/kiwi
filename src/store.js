@@ -33,22 +33,23 @@ const state = {
           group:'widgets',
           disabled: false
         },
-        study_sets: [
-          {
-            name: 'how to kill ebarbs',
-            image: 1,
-            // img: 'https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png',
-            description: 'This set helps you learn how to kill ebarbs.',
-            set: []            
+        study_sets: {
+          sets: {
+            'how to kill ebarbs': {
+              image: 1,
+              description: 'This set helps you learn how to kill ebarbs.',
+              set: []            
+            },
+            'country names': {
+              image: 6,
+              description: 'This set helps you learn country names.',
+              set: []            
+            }
           },
-          {
-            name: 'country names',
-            description: 'This set helps you learn country names.',
-            set: []            
-          }
-        ],
-        default_image: 8,
-        img_num: 8
+          names: ['how to kill ebarbs','country names']
+        },
+        default_image: 7,
+        img_num: 7
 }
 
 // mutations are operations that actually mutates the state.
@@ -71,33 +72,34 @@ const mutations = {
     state.menu.drag_grid = JSON.parse(JSON.stringify(update))
   },
   add_study_set(state, update) {
-    state.study_sets.push(update)
+    state.study_sets.sets = {...state.study_sets.sets, [update.name]: update.set}
+    state.study_sets.names.push(update.name)
   }
 }
 
 // actions are functions that causes side effects and can involve
 // asynchronous operations.
 const actions = {
-  increment: ({ commit }) => commit('increment'),
-  decrement: ({ commit }) => commit('decrement'),
-  incrementIfOdd ({ commit, state }) {
-    if ((state.count + 1) % 2 === 0) {
-      commit('increment')
-    }
-  },
-  incrementAsync ({ commit }) {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        commit('increment')
-        resolve()
-      }, 1000)
-    })
-  }
+  // increment: ({ commit }) => commit('increment'),
+  // decrement: ({ commit }) => commit('decrement'),
+  // incrementIfOdd ({ commit, state }) {
+  //   if ((state.count + 1) % 2 === 0) {
+  //     commit('increment')
+  //   }
+  // },
+  // incrementAsync ({ commit }) {
+  //   return new Promise((resolve, reject) => {
+  //     setTimeout(() => {
+  //       commit('increment')
+  //       resolve()
+  //     }, 1000)
+  //   })
+  // }
 }
 
 // getters are functions
 const getters = {
-  evenOrOdd: state => state.count % 2 === 0 ? 'even' : 'odd'
+  // evenOrOdd: state => state.count % 2 === 0 ? 'even' : 'odd'
 }
 
 

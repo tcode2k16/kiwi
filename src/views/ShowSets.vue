@@ -1,19 +1,19 @@
 <template>
 
 <div>
-    <div v-for="set in $store.state.study_sets">
+    <div v-for="set in $store.state.study_sets.names">
         <el-row type="flex" align="middle">
             
             <el-col :offset="2" :span="20">
-                <router-link :to="'/Set/'+set.name">
+                <router-link :to="'/Set/'+set">
                     <el-card :body-style="{ padding: '0px' }" style="color:#2c3e50;">
                         <el-row>
                             <el-col :span="6">
                                 <img :src="img_path(set)" class="set_img">
                             </el-col>
                             <el-col :span="18">
-                                <h1>{{set.name}}</h1>
-                                <p>{{set.description}}</p>
+                                <h1>{{set}}</h1>
+                                <p>{{$store.state.study_sets.sets[set].description}}</p>
                             </el-col>
                         </el-row>
                     </el-card>
@@ -75,23 +75,36 @@ export default {
     },
     methods: {
         img_path(set) {
-            if (!set.image)
-                return '/static/images/'+this.$store.state.default_image+'.jpg'
-            return '/static/images/'+set.image+'.jpg'
+            let url_num = this.$store.state.study_sets.sets[set].image;
+            return '/static/images/'+ (url_num || this.$store.state.default_image) +'.jpg'
         },
         create_set() {
             this.add_set = false
-            this.$store.commit('add_study_set', {
-                name: this.form.name,
+            let set_name = this.form.name
+            let new_set = {
                 image: Math.floor(Math.random()*(this.$store.state.img_num+1)),
                 description: this.form.description,
                 set: []
-            })
+            }
+
+            this.form.name = ''
+            this.form.description = ''
+            if (this.$store.state.study_sets.names.indexOf(set_name) >= 0) {
+                this.$notify.error({
+                    title: 'Study set existed',
+                    message: 'the study set is already there'
+                })
+                return
+                
+            }
+            this.$store.commit('add_study_set', {name: set_name, set: new_set})
             this.$notify({
                 title: 'Set added',
                 message: this.form.name+' is added to your study sets',
                 type: 'success'
             })
+
+            
         }
     }
 }
