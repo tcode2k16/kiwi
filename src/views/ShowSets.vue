@@ -1,6 +1,7 @@
 <template>
 
 <div>
+    <br>
     <div v-for="set in $store.state.study_sets.ids">
         <el-row type="flex" align="middle" justify="space-between">
             <el-col :span="20" :offset="2" :md="{span: 16, offset: 4}" :lg="{span: 12, offset: 6}">
@@ -81,7 +82,7 @@ export default {
                 image: Math.floor(Math.random()*(this.$store.state.img_num+1)),
                 description: this.form.description,
                 name: this.form.name,
-                set: []
+                set: {}
             }
 
             

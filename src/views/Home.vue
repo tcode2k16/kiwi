@@ -3,7 +3,9 @@
 
 
 <template>
-    <el-row>
+    <div>
+        <br>
+        <el-row>
         <el-col :span="12">
             <draggable class="draggable" :list="drag_grid[0]" :options="$store.state.drag_op" @start="dragging=true" @end="dragging=false">
                 <div v-for="each in drag_grid[0]">
@@ -20,6 +22,7 @@
             </draggable>
         </el-col>
     </el-row>
+    </div>
 </template>
 
 <script>
