@@ -3,7 +3,7 @@
 <div>
     <br>
     <el-row type="flex">
-        <el-col :span="17" :offset="2">
+        <el-col :span="screenw > 768 ? 17 : 24" :offset="screenw > 768 ? 2 : 0">
             <el-card>
                 <el-row type="flex" align="middle">
                     <el-col :span="18">
@@ -21,7 +21,7 @@
         </el-col>
     </el-row>
     <el-row type="flex">
-        <el-col :span="17" :offset="2">
+        <el-col :span="screenw > 768 ? 17 : 24" :offset="screenw > 768 ? 2 : 0">
             <div v-for="(term, tuuid) in $store.state.study_sets.sets[uuid].set" :key="tuuid">
                 <WordCard :tuuid="tuuid" :term="term" :screenw="screenw" :uuid="uuid"></WordCard>
                 <br>
