@@ -1,10 +1,24 @@
 <template>
 
 <el-card>
+    <el-row type="flex">
+        <el-col :span="12">
+            <div style="float: left;">
+                <p class="correctness">{{correctness}}</p>
+            </div>
+        </el-col>
+        <el-col :span="12">
+            <div style="float: right;">
+                <i class="el-icon-edit bt" @click="startEdit" :style="edit_w ? 'color:#20a0ff;' : '' "></i>
+                <i class="el-icon-star-on bt" :style="stare ? 'color:#20a0ff;' : ''" @click="stared = !stared"></i>
+                <i class="el-icon-close bt"></i>
+            </div>
+        </el-col>
+    </el-row>
     <el-row type="flex" align="middle">
        
-        <el-col :span="8" class="title">
-            <p v-if="!edit_w">{{word}}</p>
+        <el-col :span="8" class="title" :xs="{span:24}">
+            <p class="n_edit" v-if="!edit_w">{{word}}</p>
             <textarea v-if="edit_w"
                 v-model="word"
                 class="word"
@@ -15,8 +29,8 @@
         </el-col>
     
 
-        <el-col :span="13" class="divider">
-            <p v-if="!edit_w">{{def}}</p>
+        <el-col :span="16" class="divider def_c">
+            <p class="n_edit" v-if="!edit_w">{{def}}</p>
             <textarea v-if="edit_w"
                 v-model="def"
                 class="word"
@@ -24,11 +38,16 @@
                 @keyup="textAreaAdjust">
             </textarea>
         </el-col>
-        
-
-        <el-col :span="3">
-            <i class="el-icon-edit bt" @click="startEdit" :style="edit_w ? 'color:#20a0ff;' : '' "></i>
-            <i class="el-icon-star-on bt" :style="stared ? 'color:#20a0ff;' : ''" @click="stared = !stared"></i>
+    </el-row>
+    <el-row>
+        <el-col :span="24" class="def_c_m">
+            <p class="n_edit" v-if="!edit_w">{{def}}</p>
+            <textarea v-if="edit_w"
+                v-model="def"
+                class="word"
+                ref="desc"
+                @keyup="textAreaAdjust">
+            </textarea>
         </el-col>
     </el-row>
 </el-card>
@@ -45,7 +64,8 @@ export default {
             edit_w: false,
             word: this.term.word,
             def: this.term.def,
-            stared: false
+            stare: this.term.star,
+            correctness: this.term.correctness
         }
     },
     methods: {
@@ -63,15 +83,31 @@ export default {
                 })
             } else if (!this.edit_w) {
                 if (this.word !== this.term.word || this.def !== this.term.def) {
-                    this.$emit('change',{
-                        uuid: this.uuid,
-                        tuuid: this.tuuid,
-                        word:this.word,
-                        def: this.def
-                    })
+                    this.change_state()
                 }
             }
                 
+        },
+        change_state() {
+            if (this.word === '' || this.word === undefined) {
+                this.$store.commit('delete_term', {
+                    uuid: this.uuid,
+                    tuuid: this.tuuid
+                })
+                
+            }
+            else
+                this.$store.commit('change_term', {
+                    uuid: this.uuid,
+                    tuuid: this.tuuid,
+                    terms: {
+                        word: this.word,
+                        def: this.def,
+                        star: this.star,
+                        correctness: this.correctness
+                    }
+                })
+
         }
     }
 }
@@ -81,17 +117,34 @@ export default {
 
 .divider {
      border-left:3px solid #f0f0f0; 
-     padding: 10px
+     padding: 10px;
      
 }
 
 .title {
-    padding: 10px
+    padding: 10px;
 }
 
 .bt {
     cursor: pointer;
     margin: 10px
+}
+
+.correctness {
+    color: #20a0ff;
+    font-size: 20px;
+    font-weight: bold;
+    margin: 10px
+}
+
+.n_edit {
+    text-align: left;
+    padding: 0 2rem;
+}
+
+.def_c_m {
+    display: none;
+    padding: 10px;
 }
 
 .word {
@@ -101,8 +154,9 @@ export default {
     -o-transition: all 0.30s ease-in-out;
     transition:all 0.30s ease-in-out;
     outline: none;
-    text-align: center;
+    text-align: left;
     padding: 3px 0px 3px 3px;
+    /*padding: 0 2rem;*/
     margin: 5px 1px 3px 0px;
     border-style: none;
     border-bottom: 3px solid #f0f0f0;
@@ -117,8 +171,6 @@ export default {
 
 .word:focus {
     border-bottom: 3px solid #20a0ff;
-    padding: 3px 0px 3px 3px;
-    margin: 5px 1px 3px 0px;
 }
 
 
@@ -127,6 +179,27 @@ export default {
 }
 .fade-enter, .fade-leave-active {
   opacity: 0
+}
+
+@media screen and (max-width: 768px) {
+    .def_c {
+        display: none !important;
+    }
+
+    .def_c_m {
+        display: block !important;
+    }
+
+    .title {
+        color: #000;
+    }
+
+    
+
+    
+
+
+    
 }
 
 </style>
