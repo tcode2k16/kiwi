@@ -36,9 +36,14 @@
         </el-col>
     </el-row>
     
+
     <transition name="fade">
-        <Edit v-if="activeOp === 'Edit'" :screenw="screenw" :uuid="this.$route.params.name"></Edit>
+        <Edit key="Edit" v-if="activeOp === 'Edit'" :screenw="screenw" :uuid="this.$route.params.name"></Edit>
     </transition>
+    <transition name="fade">
+        <Practice key="Practice" v-if="activeOp === 'Practice'" ></Practice>
+    </transition>
+    
 
     <el-dialog title="Import words" v-model="import_w">
         <el-form :model="im_words">
@@ -60,6 +65,7 @@
 
 
 import Edit from '../components/set_views/Edit'
+import Practice from '../components/set_views/Practice'
 
 export default {
     data() {
@@ -151,7 +157,8 @@ export default {
         window.removeEventListener('resize', this.handleResize)
     },
     components: {
-        Edit
+        Edit,
+        Practice
     }
 }
 

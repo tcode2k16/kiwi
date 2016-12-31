@@ -1,9 +1,7 @@
 <template>
   <el-menu class="nav" default-active="1" mode="horizontal" :router="true" @select="handleSelect">
     <el-menu-item index="/">
-      <!--TODO add icon-->
-      <i class="el-icon-close"></i>
-      {{$store.state.app_name}}
+      <img src="/static/logo.svg" class="logo">
     </el-menu-item>
     <el-menu-item v-for="name in $store.state.routes.names" :index="'/'+name.split(' ').join('_')">{{name}} </el-menu-item>
   </el-menu>
@@ -25,5 +23,10 @@
 
 <style scoped>
 
+.logo {
+  display: inline-block;
+  height: 75%;
+  vertical-align: middle;
+}
 
 </style>
