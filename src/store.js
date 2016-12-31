@@ -995,9 +995,6 @@ const mutations = {
     //  uuid: set id
     //  tuuid: term id       
     //}
-    // let n_s = {...state.study_sets.sets[update.uuid].set}
-    // delete n_s[update.tuuid]
-    // state.study_sets.sets[update.uuid].set = n_s
     Vue.delete(state.study_sets.sets[update.uuid].set,update.tuuid)
   },
   add_term(state, update) {
@@ -1032,6 +1029,13 @@ const mutations = {
     //  }        
     //}
     state.study_sets.sets[update.uuid].set = {...state.study_sets.sets[update.uuid].set, [update.tuuid]: update.terms}
+  },
+  star_term(state, update) {
+    // update {
+    //  uuid: set id
+    //  tuuid: term id       
+    //}
+    Vue.set(state.study_sets.sets[update.uuid].set[update.tuuid],'star',true)
   }
 }
 

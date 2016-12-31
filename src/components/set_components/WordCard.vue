@@ -4,13 +4,13 @@
     <el-row type="flex">
         <el-col :span="12">
             <div style="float: left;">
-                <p class="correctness">{{correctness}}</p>
+                <p class="correctness">{{correctness >= 0 ? '+'+correctness : correctness}}</p>
             </div>
         </el-col>
         <el-col :span="12">
             <div style="float: right;">
                 <i class="el-icon-edit bt" @click="startEdit" :style="edit_w ? 'color:#20a0ff;' : '' "></i>
-                <i class="el-icon-star-on bt" :style="stare ? 'color:#20a0ff;' : ''" @click="stared = !stared"></i>
+                <i class="el-icon-star-on bt" :style="star ? 'color:#20a0ff;' : ''" @click="star = !star"></i>
                 <i class="el-icon-close bt"></i>
             </div>
         </el-col>
@@ -64,7 +64,7 @@ export default {
             edit_w: false,
             word: this.term.word,
             def: this.term.def,
-            stare: this.term.star,
+            star: this.term.star,
             correctness: this.term.correctness
         }
     },
@@ -89,13 +89,11 @@ export default {
                 
         },
         change_state() {
-            if (this.word === '' || this.word === undefined) {
+            if (this.word === '' || this.word === undefined) 
                 this.$store.commit('delete_term', {
                     uuid: this.uuid,
                     tuuid: this.tuuid
                 })
-                
-            }
             else
                 this.$store.commit('change_term', {
                     uuid: this.uuid,
@@ -108,6 +106,16 @@ export default {
                     }
                 })
 
+        }
+    },
+    watch: {
+        star: {
+            handler() {
+                this.$store.commit('star_term', {
+                    uuid: this.uuid,
+                    tuuid: this.tuuid
+                })
+            }
         }
     }
 }
