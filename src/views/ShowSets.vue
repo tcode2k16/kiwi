@@ -7,7 +7,7 @@
             <el-card>
                 <el-row type="flex" align="middle">
                     <el-col :span="18">
-                        <h1>Add New Study Set</h1>
+                        <h2>Add New Study Set</h2>
                     </el-col>
                     <el-col :span="6">
                         <div style="display: inline-block" @click="add_set = true">
@@ -32,7 +32,7 @@
                                 <img :src="img_path(set)" class="set_img">
                             </el-col>
                             <el-col :span="18" :xs="{span:24}">
-                                <h1>{{$store.state.study_sets.sets[set].name}}</h1>
+                                <h2>{{$store.state.study_sets.sets[set].name}}</h2>
                                 <p>{{$store.state.study_sets.sets[set].description}}</p>
                             </el-col>
                         </el-row>

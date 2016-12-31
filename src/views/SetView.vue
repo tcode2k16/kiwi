@@ -1,21 +1,19 @@
 <template>
 
-<div>
+<div v-if="have_set">
     <el-row type="flex" justify="space-between" align="middle" v-if="activeOp === 'Edit'" class="cover">
         <el-col :span=10>
             <h1>{{set.name}}</h1>
             <div>
                 <div style="display: inline-block" @click="import_w = true">
-                    <el-button v-if="screenw > 768">
-                        import
-                    </el-button>
-                    <i class="el-icon-upload bt" v-else></i>
+                    <i class="el-icon-upload bt"></i>
                 </div>
                 <div style="display: inline-block">
-                    <el-button v-if="screenw > 768">export</el-button>
-                    <i class="el-icon-share bt" v-else></i>
+                    <i class="el-icon-share bt"></i>
                 </div>
-                
+                <div style="display: inline-block" @click="delete_set">
+                    <i class="el-icon-delete bt"></i>
+                </div>
             </div>
         </el-col>
         <el-col :span=12>
@@ -72,17 +70,35 @@ export default {
             im_words: {
                 str:''
             },
-            screenw: window.innerWidth
+            screenw: window.innerWidth,
+            have_set: this.$route.params.name in this.$store.state.study_sets.sets
         }
     },
     methods: {
+        delete_set() {
+            this.$confirm('This will permanently delete the study set. Continue?', 'Warning', {
+                confirmButtonText: 'OK',
+                cancelButtonText: 'Cancel',
+                type: 'warning'
+            }).then(() => {
+                this.$router.push('/My_Sets')
+                this.$store.commit('delete_study_set', {
+                    uuid: this.$route.params.name
+                })
+                this.$message({
+                    type: 'success',
+                    message: 'Delete completed'
+                })
+                
+            })
+        },
         img_path(img) {
             return '/static/images/'+ (img || this.$store.state.default_image) +'.jpg'
         },
         import_words() {
             this.import_w = false
             if (this.im_words.str === "" || this.im_words.str === undefined) {
-                this.$notify.error({
+                this.$message.error({
                     title: 'Import failed',
                     message: 'the text cannot be nothing'
                 })
@@ -112,6 +128,12 @@ export default {
         },
         handleResize() {
             this.screenw = window.innerWidth
+        }
+    },
+    beforeCreate() {
+        
+        if (!(this.$route.params.name in this.$store.state.study_sets.sets)) {
+            this.$router.push('/My_Sets')
         }
     },
     created() {

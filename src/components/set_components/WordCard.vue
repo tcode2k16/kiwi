@@ -10,7 +10,7 @@
         <el-col :span="22">
             <div style="float: right;">
                 <p v-if="edit_w" style="color:#20a0ff;display: inline-block">{{screenw < 768 ? 'click to save' : 'click pen to save'}}</p>
-                <i class="el-icon-edit bt" @click="startEdit('name')" :style="edit_w ? 'color:#20a0ff;' : '' "></i>
+                <i class="el-icon-edit bt" @click="editBt" :style="edit_w ? 'color:#20a0ff;' : '' "></i>
                 <div  @click="star = !star" style="display: inline-block;">
                     <i class="el-icon-star-on bt" style="color:#20a0ff;" v-if="star"></i>
                     <i class="el-icon-star-off bt" v-else></i>
@@ -87,6 +87,10 @@ export default {
         }
     },
     methods: {
+        editBt() {
+            if(!this.edit_w)
+                this.startEdit('name')
+        },
         delete_term() {
             this.$confirm('This will permanently delete the term. Continue?', 'Warning', {
                 confirmButtonText: 'OK',
