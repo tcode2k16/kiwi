@@ -20,10 +20,12 @@ import VueRouter from 'vue-router'
 // store
 import store from './store'
 
+// pulgin
+import autosize from './plugins/autosize'
 
 Vue.use(Element, {locale})
 Vue.use(VueRouter)
-
+Vue.use(autosize)
 
 
 const router = new VueRouter({

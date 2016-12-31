@@ -3,7 +3,7 @@
 <div>
     <br>
     <el-row type="flex">
-        <el-col :span="20" :offset="2">
+        <el-col :span="17" :offset="2">
             <el-card>
                 <el-row type="flex" align="middle">
                     <el-col :span="18">
@@ -21,9 +21,9 @@
         </el-col>
     </el-row>
     <el-row type="flex">
-        <el-col :span="20" :offset="2">
+        <el-col :span="17" :offset="2">
             <div v-for="(term, tuuid) in $store.state.study_sets.sets[uuid].set" :key="tuuid">
-                <WordCard :tuuid="tuuid" :term="term" :uuid="uuid"></WordCard>
+                <WordCard :tuuid="tuuid" :term="term" :screenw="screenw" :uuid="uuid"></WordCard>
                 <br>
             </div>
         </el-col>
@@ -46,8 +46,8 @@ export default {
             this.$store.commit('add_term', {
                 uuid: this.uuid,
                 words: [{
-                    word:'New term',
-                    def:'New definition'
+                    word:undefined,
+                    def:undefined
                 }]
             })
             this.$message({

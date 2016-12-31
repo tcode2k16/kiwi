@@ -2,6 +2,26 @@
 
 <div>
     <br>
+    <el-row type="flex" align="middle" justify="space-between">
+        <el-col :span="20" :offset="2" :md="{span: 16, offset: 4}" :lg="{span: 12, offset: 6}">
+            <el-card>
+                <el-row type="flex" align="middle">
+                    <el-col :span="18">
+                        <h1>Add New Study Set</h1>
+                    </el-col>
+                    <el-col :span="6">
+                        <div style="display: inline-block" @click="add_set = true">
+                            <el-button v-if="screenw > 768" type="primary" >Add</el-button>
+                            <i class="el-icon-plus bt" v-else></i>
+                        </div>
+                    </el-col>
+                </el-row>
+            </el-card>
+            <br>
+        </el-col>
+    </el-row>
+    
+
     <div v-for="set in $store.state.study_sets.ids">
         <el-row type="flex" align="middle" justify="space-between">
             <el-col :span="20" :offset="2" :md="{span: 16, offset: 4}" :lg="{span: 12, offset: 6}">
@@ -22,14 +42,6 @@
         </el-row>
         <br><br>
     </div>
-    <br><br>
-    <el-row>
-        <el-row :span="24">
-            <el-button @click="add_set = true" type="primary" size="large">
-                create new set
-            </el-button>
-        </el-row>
-    </el-row>
     <br>
 
 
@@ -67,8 +79,15 @@ export default {
             form: {
                 name: '',
                 description: ''
-            }
+            },
+            screenw: window.innerWidth
         }
+    },
+    created() {
+        window.addEventListener('resize', this.handleResize)
+    },
+    beforeDestroy() {
+        window.removeEventListener('resize', this.handleResize)
     },
     methods: {
         img_path(set) {
@@ -91,7 +110,7 @@ export default {
             }
 
             if (this.form.name === '' || this.form.name === undefined) {
-                this.$notify.error({
+                this.$message.error({
                     title: 'Study set unnamed',
                     message: 'You must name your study set'
                 })
@@ -99,7 +118,7 @@ export default {
             }
 
             this.$store.commit('add_study_set', {uuid: set_id, set: new_set})
-            this.$notify({
+            this.$message({
                 title: 'Set added',
                 message: this.form.name+' is added to your study sets',
                 type: 'success'
@@ -107,6 +126,9 @@ export default {
             this.form.name = ''
             this.form.description = ''
             
+        },
+        handleResize() {
+            this.screenw = window.innerWidth
         },
         uuid() {
             function s4() {
@@ -129,6 +151,12 @@ export default {
     height: 100%;
     display: block;
     image-rendering: pixelated;
+}
+
+.bt {
+    cursor: pointer;
+    margin: 10px;
+    display: inline-block;
 }
 
 

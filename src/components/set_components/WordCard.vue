@@ -9,7 +9,8 @@
         </el-col>
         <el-col :span="12">
             <div style="float: right;">
-                <i class="el-icon-edit bt" @click="startEdit" :style="edit_w ? 'color:#20a0ff;' : '' "></i>
+                <p v-if="edit_w" style="color:#20a0ff;display: inline-block">click the pen to save</p>
+                <i class="el-icon-edit bt" @click="startEdit('name')" :style="edit_w ? 'color:#20a0ff;' : '' "></i>
                 <div  @click="star = !star" style="display: inline-block;">
                     <i class="el-icon-star-on bt" style="color:#20a0ff;" v-if="star"></i>
                     <i class="el-icon-star-off bt" v-else></i>
@@ -22,35 +23,40 @@
     <el-row type="flex" align="middle">
        
         <el-col :span="8" class="title" :xs="{span:24}">
-            <p class="n_edit" v-if="!edit_w">{{word}}</p>
+            <p class="n_edit" v-if="!edit_w" @dblclick="startEdit('name')">{{word}}</p>
             <textarea v-if="edit_w"
                 v-model="word"
+                v-autosize="word"
                 class="word"
                 ref="name"
                 autocomplete="off"
-                @keyup="textAreaAdjust">
+                placeholder="Term">
             </textarea>
         </el-col>
     
 
         <el-col :span="16" class="divider def_c">
-            <p class="n_edit" v-if="!edit_w">{{def}}</p>
+            <p class="n_edit" v-if="!edit_w" @dblclick="startEdit('def')">{{def}}</p>
             <textarea v-if="edit_w"
                 v-model="def"
+                v-autosize="def"
                 class="word"
                 ref="desc"
-                @keyup="textAreaAdjust">
+                autocomplete="off"
+                placeholder="Definition">
             </textarea>
         </el-col>
     </el-row>
     <el-row>
         <el-col :span="24" class="def_c_m">
-            <p class="n_edit" v-if="!edit_w">{{def}}</p>
+            <p class="n_edit" v-if="!edit_w" @dblclick="startEdit('def')">{{def}}</p>
             <textarea v-if="edit_w"
                 v-model="def"
+                v-autosize="def"
                 class="word"
-                ref="desc"
-                @keyup="textAreaAdjust">
+                ref="desc2"
+                autocomplete="off"
+                placeholder="Definition">
             </textarea>
         </el-col>
     </el-row>
@@ -62,7 +68,7 @@
 <script>
 
 export default {
-    props: ['term','uuid','tuuid'],
+    props: ['term','uuid','tuuid','screenw'],
     data() {
         return {
             edit_w: false,
@@ -70,6 +76,11 @@ export default {
             def: this.term.def,
             star: this.term.star,
             correctness: this.term.correctness
+        }
+    },
+    mounted() {
+        if (this.term.word === undefined) {
+            this.startEdit('name')
         }
     },
     methods: {
@@ -86,19 +97,19 @@ export default {
                 })
             })
         },
-        textAreaAdjust(e) {
-            e.target.style.height = "auto"
-            e.target.style.height = e.target.scrollHeight+"px"
-        },
-        startEdit() {
+        startEdit(el) {
             this.edit_w = !this.edit_w
             if (this.edit_w) {
                 this.$nextTick(function () {
-                    this.textAreaAdjust({target: this.$refs.name})
-                    this.textAreaAdjust({target: this.$refs.desc})
-                    this.$refs.name.focus()
+                    if (el==='def')
+                        if (this.screenw < 768)
+                            this.$refs.desc2.focus()
+                        else
+                            this.$refs.desc.focus()
+                    else
+                        this.$refs.name.focus()
                 })
-            } else if (!this.edit_w) {
+            } else  {
                 if (this.word !== this.term.word || this.def !== this.term.def) {
                     this.change_state()
                     this.$message({

@@ -11,6 +11,7 @@
     "test": "npm run unit"
   },
   "dependencies": {
+    "autosize": "^3.0.20",
     "element-ui": "^1.0.9",
     "lodash.assign": "^4.2.0",
     "moment": "^2.17.1",

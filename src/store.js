@@ -988,7 +988,7 @@ const mutations = {
   },
   add_study_set(state, update) {
     state.study_sets.sets = {...state.study_sets.sets, [update.uuid]: update.set}
-    state.study_sets.ids.push(update.uuid)
+    state.study_sets.ids.unshift(update.uuid)
   },
   delete_term(state, update) {
     // update {
