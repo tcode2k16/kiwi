@@ -106,7 +106,7 @@ export default {
         },
         onblur() {
             window.setTimeout(function() {
-                if (this.$refs.name !== document.activeElement && (this.screenw < 768 ? this.$refs.desc2 : this.$refs.desc) !== document.activeElement)
+                if (this.$refs.name !== document.activeElement && this.$refs.desc !== document.activeElement && this.$refs.desc2 !== document.activeElement )
                     this.startEdit()
             }.bind(this),200)
             

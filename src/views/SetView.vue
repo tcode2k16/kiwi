@@ -71,7 +71,8 @@ export default {
                 str:''
             },
             screenw: window.innerWidth,
-            have_set: this.$route.params.name in this.$store.state.study_sets.sets
+            have_set: this.$route.params.name in this.$store.state.study_sets.sets,
+            uuid: this.$route.params.name
         }
     },
     methods: {
@@ -83,7 +84,7 @@ export default {
             }).then(() => {
                 this.$router.push('/My_Sets')
                 this.$store.commit('delete_study_set', {
-                    uuid: this.$route.params.name
+                    uuid: this.uuid
                 })
                 this.$message({
                     type: 'success',
@@ -117,6 +118,13 @@ export default {
                     def: terms[1]
                 })
             })
+            if (new_d.length <= 0) {
+                this.$message.error({
+                    message: 'No correct term found'
+                })
+                return
+            }
+
             this.$store.commit('add_term',{
                 uuid: this.$route.params.name,
                 words: new_d

@@ -991,8 +991,11 @@ const mutations = {
     state.study_sets.ids.unshift(update.uuid)
   },
   delete_study_set(state, update) {
-    state.study_sets.ids.splice(state.study_sets.ids.indexOf(update.uuid),1)
-    Vue.delete(state.study_sets.sets,update.uuid)
+    let index = state.study_sets.ids.indexOf(update.uuid)
+    if (index >= 0) {
+        state.study_sets.ids.splice(index,1)
+        Vue.delete(state.study_sets.sets,update.uuid)
+    }
     
   },
   delete_term(state, update) {
