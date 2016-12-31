@@ -83,13 +83,8 @@ export default {
                 this.$message({
                     type: 'success',
                     message: 'Delete completed'
-                });
-            }).catch(() => {
-                this.$message({
-                    type: 'info',
-                    message: 'Delete canceled'
-                });          
-            });
+                })
+            })
         },
         textAreaAdjust(e) {
             e.target.style.height = "auto"
@@ -106,6 +101,10 @@ export default {
             } else if (!this.edit_w) {
                 if (this.word !== this.term.word || this.def !== this.term.def) {
                     this.change_state()
+                    this.$message({
+                        type: 'success',
+                        message: 'Term updated'
+                    })
                 }
             }
                 
@@ -137,6 +136,17 @@ export default {
                     uuid: this.uuid,
                     tuuid: this.tuuid
                 })
+
+                let msg = ' "'+this.word+'"'
+                if (this.star)
+                    msg = "Stared"+msg
+                else
+                    msg = "Unstared"+msg
+                this.$message({
+                    type: 'success',
+                    message: msg 
+                })
+
             }
         }
     }

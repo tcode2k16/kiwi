@@ -46,9 +46,13 @@ export default {
             this.$store.commit('add_term', {
                 uuid: this.uuid,
                 words: [{
-                    word:'',
-                    def:''
+                    word:'New term',
+                    def:'New definition'
                 }]
+            })
+            this.$message({
+                type: 'success',
+                message: 'Added term to "'+this.$store.state.study_sets.sets[this.uuid].name+'"'
             })
         }
     },

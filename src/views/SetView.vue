@@ -105,6 +105,10 @@ export default {
                 uuid: this.$route.params.name,
                 words: new_d
             })
+            this.$message({
+                type: 'success',
+                message: 'Imported terms into "'+this.set.name+'"'
+            })
         },
         handleResize() {
             this.screenw = window.innerWidth
