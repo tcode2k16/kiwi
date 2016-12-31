@@ -36,9 +36,14 @@ export default {
                 })
                 let path = this.$route.path
                 // HACK
-                this.$router.push('/');
+                let scrollLeft = window.pageXOffset || document.documentElement.scrollLeft
+                let scrollTop = window.pageYOffset || document.documentElement.scrollTop
+                this.$router.push('/')
                 this.$nextTick(function () {
                     this.$router.push(path)
+                    this.$nextTick(function () {
+                        window.scrollTo(scrollLeft,scrollTop)
+                    })
                 })
                 
             }
