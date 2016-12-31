@@ -39,7 +39,7 @@
     </el-row>
     
     <transition name="fade">
-        <Edit v-if="activeOp === 'Edit'" :uuid="this.$route.params.name"></Edit>
+        <Edit v-if="activeOp === 'Edit'" :screenw="screenw" :uuid="this.$route.params.name"></Edit>
     </transition>
 
     <el-dialog title="Import words" v-model="import_w">

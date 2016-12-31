@@ -1015,7 +1015,7 @@ const mutations = {
             correctness: 0
         }
     })
-    state.study_sets.sets[update.uuid].set = {...state.study_sets.sets[update.uuid].set, ...n_d};
+    state.study_sets.sets[update.uuid].set = {...n_d, ...state.study_sets.sets[update.uuid].set};
   },
   change_term(state, update) {
     // update {
