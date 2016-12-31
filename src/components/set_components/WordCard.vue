@@ -10,8 +10,12 @@
         <el-col :span="12">
             <div style="float: right;">
                 <i class="el-icon-edit bt" @click="startEdit" :style="edit_w ? 'color:#20a0ff;' : '' "></i>
-                <i class="el-icon-star-on bt" :style="star ? 'color:#20a0ff;' : ''" @click="star = !star"></i>
-                <i class="el-icon-close bt"></i>
+                <div  @click="star = !star" style="display: inline-block;">
+                    <i class="el-icon-star-on bt" style="color:#20a0ff;" v-if="star"></i>
+                    <i class="el-icon-star-off bt" v-else></i>
+                </div>
+                
+                <i class="el-icon-close bt" @click="delete_term"></i>
             </div>
         </el-col>
     </el-row>
@@ -69,6 +73,24 @@ export default {
         }
     },
     methods: {
+        delete_term() {
+            this.$confirm('This will permanently delete the term. Continue?', 'Warning', {
+                confirmButtonText: 'OK',
+                cancelButtonText: 'Cancel',
+                type: 'warning'
+            }).then(() => {
+                this.delete_state()
+                this.$message({
+                    type: 'success',
+                    message: 'Delete completed'
+                });
+            }).catch(() => {
+                this.$message({
+                    type: 'info',
+                    message: 'Delete canceled'
+                });          
+            });
+        },
         textAreaAdjust(e) {
             e.target.style.height = "auto"
             e.target.style.height = e.target.scrollHeight+"px"
@@ -89,23 +111,23 @@ export default {
                 
         },
         change_state() {
-            if (this.word === '' || this.word === undefined) 
-                this.$store.commit('delete_term', {
-                    uuid: this.uuid,
-                    tuuid: this.tuuid
-                })
-            else
-                this.$store.commit('change_term', {
-                    uuid: this.uuid,
-                    tuuid: this.tuuid,
-                    terms: {
-                        word: this.word,
-                        def: this.def,
-                        star: this.star,
-                        correctness: this.correctness
-                    }
-                })
+            this.$store.commit('change_term', {
+                uuid: this.uuid,
+                tuuid: this.tuuid,
+                terms: {
+                    word: this.word,
+                    def: this.def,
+                    star: this.star,
+                    correctness: this.correctness
+                }
+            })
 
+        },
+        delete_state() {
+            this.$store.commit('delete_term', {
+                uuid: this.uuid,
+                tuuid: this.tuuid
+            })
         }
     },
     watch: {
@@ -135,7 +157,8 @@ export default {
 
 .bt {
     cursor: pointer;
-    margin: 10px
+    margin: 10px;
+    display: inline-block;
 }
 
 .correctness {
