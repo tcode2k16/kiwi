@@ -82,7 +82,7 @@ export default {
             let new_d = []
 
              words.map(each=>{
-                let terms = each.split('\t')
+                let terms = each.split('**')
                 if (terms.length!==2) return;
 
             

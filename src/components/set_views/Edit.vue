@@ -5,7 +5,7 @@
     <el-row type="flex">
         <el-col :span="20" :offset="2">
             <div v-for="(term, tuuid) in $store.state.study_sets.sets[uuid].set">
-                <WordCard :tuuid="tuuid" :term="term" @change="change_state" :uuid="uuid"></WordCard>
+                <WordCard :tuuid="tuuid" :term="term" @change="change_state" :key="tuuid" :uuid="uuid"></WordCard>
                 <br>
             </div>
             
@@ -33,17 +33,6 @@ export default {
                 this.$store.commit('delete_term', {
                     uuid: obj.uuid,
                     tuuid: obj.tuuid
-                })
-                let path = this.$route.path
-                // HACK
-                let scrollLeft = window.pageXOffset || document.documentElement.scrollLeft
-                let scrollTop = window.pageYOffset || document.documentElement.scrollTop
-                this.$router.push('/')
-                this.$nextTick(function () {
-                    this.$router.push(path)
-                    this.$nextTick(function () {
-                        window.scrollTo(scrollLeft,scrollTop)
-                    })
                 })
                 
             }
