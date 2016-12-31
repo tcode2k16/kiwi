@@ -5,8 +5,17 @@
         <el-col :span=10>
             <h1>{{set.name}}</h1>
             <div>
-                <el-button @click="import_w = true">import</el-button>
-                <el-button>export</el-button>
+                <div style="display: inline-block" @click="import_w = true">
+                    <el-button v-if="screenw > 768">
+                        import
+                    </el-button>
+                    <i class="el-icon-upload bt" v-else></i>
+                </div>
+                <div style="display: inline-block">
+                    <el-button v-if="screenw > 768">export</el-button>
+                    <i class="el-icon-share bt" v-else></i>
+                </div>
+                
             </div>
         </el-col>
         <el-col :span=12>
@@ -62,7 +71,8 @@ export default {
             import_w: false,
             im_words: {
                 str:''
-            }
+            },
+            screenw: window.innerWidth
         }
     },
     methods: {
@@ -95,7 +105,16 @@ export default {
                 uuid: this.$route.params.name,
                 words: new_d
             })
+        },
+        handleResize() {
+            this.screenw = window.innerWidth
         }
+    },
+    created() {
+        window.addEventListener('resize', this.handleResize)
+    },
+    beforeDestroy() {
+        window.removeEventListener('resize', this.handleResize)
     },
     components: {
         Edit
@@ -138,6 +157,12 @@ export default {
 }
 .fade-enter, .fade-leave-active {
   opacity: 0
+}
+
+.bt {
+    cursor: pointer;
+    margin: 10px;
+    display: inline-block;
 }
 
 </style>
