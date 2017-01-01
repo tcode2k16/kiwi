@@ -116,7 +116,7 @@ export default {
             if (this.edit_w) {
                 this.$nextTick(function () {
                     if (el==='def')
-                        if (!largeScreen)
+                        if (!this.largeScreen)
                             this.$refs.desc2.focus()
                         else
                             this.$refs.desc.focus()

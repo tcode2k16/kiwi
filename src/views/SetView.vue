@@ -36,13 +36,13 @@
         </el-col>
     </el-row>
     
-
     <transition name="fade">
-        <Edit key="Edit" v-if="activeOp === 'Edit'" :large-screen="large_screen" :uuid="this.$route.params.name"></Edit>
+        <Practice :class="activeOp === 'Practice' ? 'new_content' : ''" key="Practice" :large-screen="large_screen" :uuid="this.$route.params.name" v-show="activeOp === 'Practice'" ></Practice>
     </transition>
     <transition name="fade">
-        <Practice key="Practice" :large-screen="large_screen" :uuid="this.$route.params.name" v-if="activeOp === 'Practice'" ></Practice>
+        <Edit :class="activeOp === 'Edit' ? 'new_content' : ''" key="Edit" v-show="activeOp === 'Edit'" :large-screen="large_screen" :uuid="this.$route.params.name"></Edit>
     </transition>
+    
     
 
     <el-dialog title="Import words" v-model="import_w">
@@ -203,6 +203,11 @@ export default {
 }
 .fade-enter, .fade-leave-active {
   opacity: 0
+}
+
+.new_content {
+  /* Delay for showing the content after the loader has been hidden */
+  transition-delay: 0.4s;
 }
 
 .bt {
