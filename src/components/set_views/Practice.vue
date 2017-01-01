@@ -1,9 +1,8 @@
 <template>
 <div class="component">
     <div class="p_bar">
-        <!--<span :style="'width:100%'" class="p_right"></span>
-        <span :span="progress.wrong" class="p_wrong"></span>
-        <span :span="total -progress.right -progress.wrong" class="p_none"></span>-->
+        <div class="wrong" :style="'width:'+(progress.wrong+progress.right)/total*100+'%'"></div>
+        <div class="right" :style="'width:'+(progress.right)/total*100+'%'"></div>
     </div>
 
     <!--<el-row>
@@ -24,11 +23,11 @@
     <br>
     <br>
     <el-row type="flex">
-        <el-col :span="largeScreen ? 18 : 24" :offset="largeScreen ? 3 : 0">
+        <el-col :span="largeScreen ? 18 : 24" :offset="largeScreen ? 3 : 0">            
             <el-card>
                 <el-row>
                     <el-col :span="24" class="title">
-                        <p class="text">{{word}}</p>
+                        <p class="text">{{definition}}</p>
                     </el-col>
                 </el-row>
                 <br>
@@ -42,12 +41,13 @@
                             ref="res"
                             autocomplete="off"
                             placeholder="Answer"
+                            @keydown.enter.prevent="submit_answer"
                             autofocus>
                         </input>
                         <span class="des" @click="focus_text">TYPE THE ANSWER</span>
                     </el-col>
                     <el-col :span="6">
-                        <el-button type="primary">Answer</el-button>
+                        <el-button type="primary" @click="submit_answer">Answer</el-button>
                     </el-col>
                 </el-row>
             </el-card>
@@ -65,23 +65,59 @@ export default {
     data() {
         return {
             progress: {
-                right: 5,
+                right: 100,
                 wrong: 7,
                 
             },
-            word: "abc",
-            res: 'abc'
+            wrongTerms: {},
+            res: 'abc',
+            view: {
+                correct: false,
+                wrong: false
+            },
+            terms: JSON.parse(JSON.stringify(this.$store.state.study_sets.sets[this.uuid].set))
+        }
+    },
+    methods: {
+        focus_text() {
+            this.$refs.res.focus()
+        },
+        
+        submit_answer() {
+            if (this.isCorrect) {
+                console.log('correct')
+                this.update()
+            } else {
+                console.log('wrong :(')
+                console.log(this.answer);
+            }
+        },
+        update() {
+            if (this.isCorrect) this.progress.right++;
+            else {
+                this.progress.wrong++
+                this.wrongTerms[this.tuuid]=this.term[this.tuuid]
+            }
+            this.$delete(this.terms,this.tuuid)
         }
     },
     computed: {
         total() {
             return Object.keys(this.$store.state.study_sets.sets[this.uuid].set).length
-        }
-    },
-    methods: {
-        focus_text() {
-            console.log('called');
-            this.$refs.res.focus()
+        },
+        answer() {
+            return this.$store.state.study_sets.sets[this.uuid].set[this.tuuid].word
+        },
+        isCorrect() {
+            return this.res.toLowerCase() === this.answer.toLowerCase()
+        },
+        definition() {
+            console.log(this.tuuid);
+            return this.$store.state.study_sets.sets[this.uuid].set[this.tuuid].def
+        },
+        tuuid() {
+            let keys = Object.keys(this.terms)
+            return keys[ keys.length * Math.random() << 0]
         }
     }
 }
@@ -92,33 +128,34 @@ export default {
 
 
 .p_bar {
+    z-index: 10;
     height: 0.5vh;
     /*border-bottom: 0.5vh solid #fff;*/
     width: 100%;
+    background-color: white;
+    display: block;
+    position: absolute;
 }
 
-.p_none {
-    background-color: #fff;
-    height:100%;
-    display: block;
-    position: relative;
-    overflow: hidden;
+.right, .wrong {
+    position: absolute;
+    content: "";
+    /*display: inline-block;*/
+    top:  0;
+    left: 0;
+    height: 100%;
 }
 
-.p_right {
-    background-color: #2ecc71;
-    height:100%;
-    display: block;
-    position: relative;
-    overflow: hidden;
+.right {
+    z-index: 12;
+    background-color: green;
+    width: 50%
 }
 
-.p_wrong {
-    background-color: #e74c3c;
-    height:100%;
-    display: block;
-    position: relative;
-    overflow: hidden;
+.wrong {
+    z-index: 11;
+    background-color: red;
+    width: 60%;
 }
 
 .divider {
