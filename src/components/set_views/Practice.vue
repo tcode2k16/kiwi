@@ -1,6 +1,6 @@
 <template>
 <div class="component">
-    <div class="p_bar">
+    <div class="p_bar" v-if="total !== 0">
         <div class="wrong" :style="'width:'+(progress.wrong+progress.right)/total*100+'%'"></div>
         <div class="right" :style="'width:'+(progress.right)/total*100+'%'"></div>
     </div>
@@ -24,7 +24,7 @@
     <br>
     <el-row type="flex">
         <el-col :span="largeScreen ? 18 : 24" :offset="largeScreen ? 3 : 0">            
-            <el-card>
+            <el-card v-if="total !== 0">
                 <el-row>
                     <el-col :span="24" class="title">
                         <p class="text">{{definition}}</p>
@@ -70,19 +70,19 @@ export default {
                 
             },
             wrongTerms: {},
-            res: 'abc',
+            res: '',
             view: {
                 correct: false,
                 wrong: false
-            },
-            terms: JSON.parse(JSON.stringify(this.$store.state.study_sets.sets[this.uuid].set))
+            }
+            
+            
         }
     },
     methods: {
         focus_text() {
             this.$refs.res.focus()
         },
-        
         submit_answer() {
             if (this.isCorrect) {
                 console.log('correct')
@@ -92,20 +92,39 @@ export default {
                 console.log(this.answer);
             }
         },
+        randomWord(obj) {
+            let keys = Object.keys(obj)
+            let index = keys.length * Math.random() << 0
+            console.log(keys);
+            return keys[index]
+        },
         update() {
-            if (this.isCorrect) this.progress.right++;
+            if (this.isCorrect)
+                this.progress.right++;
             else {
                 this.progress.wrong++
                 this.wrongTerms[this.tuuid]=this.term[this.tuuid]
             }
-            this.$delete(this.terms,this.tuuid)
+            this.$store.commit('finish_practise_term',{
+                tuuid: this.tuuid,
+                uuid: this.uuid
+            })
+            this.res = ''
         }
     },
     computed: {
+        terms() {
+            return this.$store.state.study_sets.sets[this.uuid].practise
+        },
+        tuuid() {
+            return this.randomWord(this.$store.state.study_sets.sets[this.uuid].practise)
+        },
         total() {
             return Object.keys(this.$store.state.study_sets.sets[this.uuid].set).length
         },
         answer() {
+            console.log(this.tuuid);
+            if (this.total===0 || this.tuuid===undefined) return ''
             return this.$store.state.study_sets.sets[this.uuid].set[this.tuuid].word
         },
         isCorrect() {
@@ -113,11 +132,9 @@ export default {
         },
         definition() {
             console.log(this.tuuid);
+            if (this.total===0 || this.tuuid===undefined) return ''
             return this.$store.state.study_sets.sets[this.uuid].set[this.tuuid].def
-        },
-        tuuid() {
-            let keys = Object.keys(this.terms)
-            return keys[ keys.length * Math.random() << 0]
+            // return ''
         }
     }
 }

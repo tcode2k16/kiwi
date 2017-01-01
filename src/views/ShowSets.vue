@@ -101,6 +101,7 @@ export default {
                 image: Math.floor(Math.random()*(this.$store.state.img_num+1)),
                 description: this.form.description,
                 name: this.form.name,
+                practise: {},
                 set: {}
             }
 
@@ -125,6 +126,7 @@ export default {
             })
             this.form.name = ''
             this.form.description = ''
+            this.$router.push('/Set/'+set_id)
             
         },
         handleResize() {
