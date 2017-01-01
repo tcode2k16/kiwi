@@ -18,7 +18,14 @@
             </el-button>
         </el-col>
     </el-row>
-    <h1>hello</h1>
+    <br>
+    <el-row type="flex">
+        <el-col :span="largeScreen ? 18 : 24" :offset="largeScreen ? 3 : 0">
+            <el-card>
+                <h1>hello</h1>
+            </el-card>
+        </el-col>
+    </el-row>
 </div>
 
 
@@ -27,6 +34,7 @@
 <script>
     
 export default {
+    props: ['largeScreen','uuid'],
     data() {
         return {
             progress: {
@@ -42,18 +50,14 @@ export default {
 
 <style scoped>
 
-.component {
-    background-color: #eee;
-    height: auto;
-}
 
 .p_bar {
     height: 0.5vh;
-    /*border-bottom: 0.1vh solid #fff;*/
+    /*border-bottom: 0.5vh solid #fff;*/
 }
 
 .p_none {
-    background-color: white;
+    background-color: #3498db;
 }
 
 .p_right {

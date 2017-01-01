@@ -3,7 +3,7 @@
 <div>
     <br>
     <el-row type="flex">
-        <el-col :span="screenw > 768 ? 17 : 24" :offset="screenw > 768 ? 2 : 0">
+        <el-col :span="largeScreen ? 17 : 24" :offset="largeScreen ? 2 : 0">
             <el-card>
                 <el-row type="flex" align="middle">
                     <el-col :span="18">
@@ -11,7 +11,7 @@
                     </el-col>
                     <el-col :span="6">
                         <div style="display: inline-block" @click="new_term">
-                            <el-button v-if="screenw > 768">Add</el-button>
+                            <el-button v-if="largeScreen">Add</el-button>
                             <i class="el-icon-plus bt" v-else></i>
                         </div>
                     </el-col>
@@ -21,9 +21,9 @@
         </el-col>
     </el-row>
     <el-row type="flex">
-        <el-col :span="screenw > 768 ? 17 : 24" :offset="screenw > 768 ? 2 : 0">
+        <el-col :span="largeScreen ? 17 : 24" :offset="largeScreen ? 2 : 0">
             <div v-for="(term, tuuid) in $store.state.study_sets.sets[uuid].set" :key="tuuid">
-                <WordCard :tuuid="tuuid" :term="term" :screenw="screenw" :uuid="uuid"></WordCard>
+                <WordCard :tuuid="tuuid" :term="term" :large-screen="largeScreen" :uuid="uuid"></WordCard>
                 <br>
             </div>
         </el-col>
@@ -40,7 +40,7 @@
 import WordCard from '../set_components/WordCard'
 
 export default {
-    props: ['uuid','screenw'],
+    props: ['largeScreen','uuid'],
     methods: {
         new_term() {
             this.$store.commit('add_term', {
@@ -55,6 +55,8 @@ export default {
                 message: 'Added term to "'+this.$store.state.study_sets.sets[this.uuid].name+'"'
             })
         }
+    },
+    computed: {
     },
     components: {
         WordCard

@@ -70,7 +70,7 @@
 <script>
 
 export default {
-    props: ['term','uuid','tuuid','screenw'],
+    props: ['term','uuid','tuuid','largeScreen'],
     data() {
         return {
             edit_w: false,
@@ -116,7 +116,7 @@ export default {
             if (this.edit_w) {
                 this.$nextTick(function () {
                     if (el==='def')
-                        if (this.screenw < 768)
+                        if (!largeScreen)
                             this.$refs.desc2.focus()
                         else
                             this.$refs.desc.focus()

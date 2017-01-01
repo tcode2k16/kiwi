@@ -38,10 +38,10 @@
     
 
     <transition name="fade">
-        <Edit key="Edit" v-if="activeOp === 'Edit'" :screenw="screenw" :uuid="this.$route.params.name"></Edit>
+        <Edit key="Edit" v-if="activeOp === 'Edit'" :large-screen="large_screen" :uuid="this.$route.params.name"></Edit>
     </transition>
     <transition name="fade">
-        <Practice key="Practice" v-if="activeOp === 'Practice'" ></Practice>
+        <Practice key="Practice" :large-screen="large_screen" :uuid="this.$route.params.name" v-if="activeOp === 'Practice'" ></Practice>
     </transition>
     
 
@@ -79,6 +79,11 @@ export default {
             screenw: window.innerWidth,
             have_set: this.$route.params.name in this.$store.state.study_sets.sets,
             uuid: this.$route.params.name
+        }
+    },
+    computed: {
+        large_screen() {
+            return this.screenw > 768
         }
     },
     methods: {
