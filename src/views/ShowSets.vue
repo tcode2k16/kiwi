@@ -101,7 +101,10 @@ export default {
                 image: Math.floor(Math.random()*(this.$store.state.img_num+1)),
                 description: this.form.description,
                 name: this.form.name,
-                practise: {},
+                practise: {
+                    wrong:[],
+                    all:[]
+                },
                 set: {}
             }
 

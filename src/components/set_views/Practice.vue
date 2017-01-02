@@ -23,7 +23,7 @@
     <br>
     <br>
     <el-row type="flex">
-        <el-col :span="largeScreen ? 18 : 24" :offset="largeScreen ? 3 : 0">            
+        <el-col :span="largeScreen ? 18 : 24" :offset="largeScreen ? 3 : 0">      
             <el-card v-if="total !== 0">
                 <el-row>
                     <el-col :span="24" class="title">
@@ -65,17 +65,15 @@ export default {
     data() {
         return {
             progress: {
-                right: 100,
-                wrong: 7,
+                right: 0,
+                wrong: 0,
                 
             },
-            wrongTerms: {},
             res: '',
             view: {
                 correct: false,
                 wrong: false
             }
-            
             
         }
     },
@@ -93,17 +91,19 @@ export default {
             }
         },
         randomWord(obj) {
-            let keys = Object.keys(obj)
-            let index = keys.length * Math.random() << 0
-            console.log(keys);
-            return keys[index]
+            
+            let index = obj.length * Math.random() << 0
+            return obj[index]
         },
         update() {
             if (this.isCorrect)
                 this.progress.right++;
             else {
                 this.progress.wrong++
-                this.wrongTerms[this.tuuid]=this.term[this.tuuid]
+                this.$store.commit('add_wrong_term', {
+                    tuuid: this.tuuid,
+                    uuid: this.uuid
+                })
             }
             this.$store.commit('finish_practise_term',{
                 tuuid: this.tuuid,
@@ -113,11 +113,14 @@ export default {
         }
     },
     computed: {
+        wrongTerms() {
+            return this.$store.state.study_sets.sets[this.uuid].practise.wrong
+        },
         terms() {
-            return this.$store.state.study_sets.sets[this.uuid].practise
+            return this.$store.state.study_sets.sets[this.uuid].practise.all
         },
         tuuid() {
-            return this.randomWord(this.$store.state.study_sets.sets[this.uuid].practise)
+            return this.randomWord(this.terms)
         },
         total() {
             return Object.keys(this.$store.state.study_sets.sets[this.uuid].set).length
