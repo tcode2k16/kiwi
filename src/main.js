@@ -33,6 +33,7 @@ const router = new VueRouter({
   base: __dirname,
   routes: [
     { path: '/', component: Home },
+    { path: '/kiwi', redirect: '/' },
     { path: '/Menu', redirect: '/' },
     { path: '/My_Sets', component: ShowSets },
     { path: '/Set/:name', component: SetView }
