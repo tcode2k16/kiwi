@@ -25,4 +25,5 @@ For detailed explanation on how things work, checkout the [guide](http://vuejs-t
 
 ### contributor
 > Andrew Chang - art and design
+
 > Alan Chang - programming
