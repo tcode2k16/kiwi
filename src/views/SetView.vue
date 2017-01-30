@@ -1,6 +1,6 @@
 <template>
 
-<div v-if="have_set">
+<div v-if="have_set" class="view">
     <el-row type="flex" justify="space-between" align="middle" v-if="activeOp === 'Edit'" class="cover">
         <el-col :span=10>
             <h1>{{set.name}}</h1>
@@ -214,6 +214,14 @@ export default {
     cursor: pointer;
     margin: 10px;
     display: inline-block;
+}
+
+.view {
+    position: absolute;
+    top: 60px;
+    bottom: 0;
+    left: 0;
+    right: 0;
 }
 
 </style>

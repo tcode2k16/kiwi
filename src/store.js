@@ -43,9 +43,9 @@ const state = {
           ]
         },
         activities: [
-          {name: 'how to kill ebarbs', action: 'add', time: '2016.12.29'},
-          {name: 'how to kill ebarbs', action: 'edit', time: '2016.12.29'},
-          {name: 'how to kill ebarbs', action: 'delete', time: '2016.12.30'}
+        //   {name: 'how to kill ebarbs', action: 'add', time: '2016.12.29'},
+        //   {name: 'how to kill ebarbs', action: 'edit', time: '2016.12.29'},
+        //   {name: 'how to kill ebarbs', action: 'delete', time: '2016.12.30'}
         ],
         drag_op: {
           group:'widgets',
@@ -1216,7 +1216,7 @@ const mutations = {
     state.study_sets.sets[update.uuid].practise.all.splice(index,1)
   },
   add_wrong_term(state, update) {
-    state.study_sets.sets[update.uuid].practise.wrong.push(this.tuuid)
+    state.study_sets.sets[update.uuid].practise.wrong.push(update.tuuid)
   }
 }
 
